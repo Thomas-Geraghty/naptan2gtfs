@@ -3,22 +3,28 @@ import { existsSync, mkdirSync } from 'fs';
 import { Stop, VehicleType } from './Stop';
 import { LatLon } from './LatLon';
 const readline = require('readline');
-const outputLocation = ('./output/');
 let stopData: Array<string[]>, railData: Array<string[]>, ferryData: Array<string[]>;
 
 
-
 const runner = async() => {
-    console.log("==== NaPTAN2GTFS ====")
+    console.log("==== naptan2gtfs ====")
 
-    let dataLocation = __dirname + '/data';
+    let dataLocation = __dirname + '/data/';
+    let outputLocation = __dirname + '/output/';
+
     const args: any = getArgs();
     if(args.data) {
         dataLocation = args.data;
     } else {
-        dataLocation = __dirname + '/data/';
         console.log(`--data flag not set, using default data location.`)
         console.log(dataLocation);
+    }
+
+    if(args.output) {
+        outputLocation = args.data;
+    } else {
+        console.log(`--output flag not set, using default output location.`)
+        console.log(outputLocation);
     }
 
     console.log("Loading files...")
@@ -71,7 +77,7 @@ const runner = async() => {
 
     outputter('stops.txt', outputLocation, output.join('\n'));
 
-    console.log('NaPTAN2GTFS finished. Goodbye!');
+    console.log('naptan2gtfs finished. Goodbye!');
 }
 
 const parser = (file : string): Promise<Array<string[]>> => {
@@ -95,7 +101,7 @@ const parser = (file : string): Promise<Array<string[]>> => {
 
 const outputter = (fileName: string, dirLocation: string, fileContents: string) => {
     if (!existsSync(dirLocation)) mkdirSync(dirLocation);
-    fs.writeFileSync(outputLocation + fileName, fileContents);
+    fs.writeFileSync(dirLocation + fileName, fileContents);
     console.log('GTFS files saved.');
 };
 
