@@ -21,7 +21,7 @@ const runner = async() => {
     }
 
     if(args.output) {
-        outputLocation = args.data;
+        outputLocation = args.output;
     } else {
         console.log(`--output flag not set, using default output location.`)
         console.log(outputLocation);
